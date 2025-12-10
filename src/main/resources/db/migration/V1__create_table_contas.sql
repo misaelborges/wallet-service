@@ -1,0 +1,11 @@
+CREATE TABLE contas (
+    id BIGSERIAL PRIMARY KEY,
+
+    usuario_id BIGINT NOT NULL,
+    numero_conta VARCHAR(30) NOT NULL UNIQUE,
+    saldo NUMERIC(15,2) NOT NULL DEFAULT 0.00,
+    tipo VARCHAR(30) NOT NULL,
+
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ativo BOOLEAN DEFAULT TRUE
+);
