@@ -1,5 +1,6 @@
 package com.fintech.wallet_service.controller;
 
+import com.fintech.wallet_service.config.interfaces.ContaControllerOpenApi;
 import com.fintech.wallet_service.dto.*;
 import com.fintech.wallet_service.service.ContaService;
 import jakarta.validation.Valid;
@@ -11,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/carteiras")
-public class ContaController {
+public class ContaController implements ContaControllerOpenApi {
 
     private final ContaService contaService;
 
