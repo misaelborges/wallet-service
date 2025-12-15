@@ -5,6 +5,7 @@ import com.fintech.wallet_service.config.service.UsuarioServiceCliente;
 import com.fintech.wallet_service.dto.*;
 import com.fintech.wallet_service.entity.Conta;
 import com.fintech.wallet_service.exception.ContaNaoEncontradaException;
+import com.fintech.wallet_service.exception.UsuarioNaoEncontradoException;
 import com.fintech.wallet_service.repository.ContaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class ContaService {
     @Transactional
     public ContaResponseDTO criarConta(ContaRequestDTO contaRequestDTO) {
         if (!usuarioServiceCliente.usuarioExiste(contaRequestDTO.usuarioId())) {
-            throw new RuntimeException("Usuario não foi contrado");
+            throw new UsuarioNaoEncontradoException(contaRequestDTO.usuarioId());
         }
         Conta conta = contaMapper.toEntity(contaRequestDTO);
         conta.setNumeroConta(gerarNumeroConta());
