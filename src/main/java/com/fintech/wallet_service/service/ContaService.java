@@ -2,10 +2,7 @@ package com.fintech.wallet_service.service;
 
 import com.fintech.wallet_service.config.mapper.ContaMapper;
 import com.fintech.wallet_service.config.service.UsuarioServiceCliente;
-import com.fintech.wallet_service.dto.ContaRequestDTO;
-import com.fintech.wallet_service.dto.ContaResponseDTO;
-import com.fintech.wallet_service.dto.ContaResumoResponseDTO;
-import com.fintech.wallet_service.dto.SaldoResponseDTO;
+import com.fintech.wallet_service.dto.*;
 import com.fintech.wallet_service.entity.Conta;
 import com.fintech.wallet_service.exception.ContaNaoEncontradaException;
 import com.fintech.wallet_service.repository.ContaRepository;
@@ -64,6 +61,13 @@ public class ContaService {
         Conta conta = buscaCarteira(id);
         return contaMapper.toSaldoResponseDTO(conta);
 
+    }
+
+    @Transactional
+    public SaldoResponseDTO depositar(Long id, DepositoRequestDTO depositoRequestDTO) {
+        Conta conta = buscaCarteira(id);
+        conta.setSaldo(depositoRequestDTO.valor());
+        return contaMapper.toSaldoResponseDTO(conta);
     }
 
     private Conta buscaCarteira(Long id) {
