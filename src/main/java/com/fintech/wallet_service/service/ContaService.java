@@ -4,6 +4,7 @@ import com.fintech.wallet_service.config.mapper.ContaMapper;
 import com.fintech.wallet_service.config.service.UsuarioServiceCliente;
 import com.fintech.wallet_service.dto.ContaRequestDTO;
 import com.fintech.wallet_service.dto.ContaResponseDTO;
+import com.fintech.wallet_service.dto.ContaResumoResponseDTO;
 import com.fintech.wallet_service.entity.Conta;
 import com.fintech.wallet_service.exception.ContaNaoEncontradaException;
 import com.fintech.wallet_service.repository.ContaRepository;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -43,6 +45,16 @@ public class ContaService {
     public ContaResponseDTO buscarCarteiraPorId(Long id) {
         Conta conta = buscaCarteira(id);
         return contaMapper.toResponseDTO(conta);
+    }
+
+    @Transactional
+    public List<ContaResumoResponseDTO> listarCarteirasUsuario(Long usuarioId) {
+        if (!usuarioServiceCliente.usuarioExiste(usuarioId)) {
+            throw new RuntimeException("Usuario não foi contrado");
+        }
+
+        List<Conta> contasUsuario = contaRepository.findAllContaByUsuarioId(usuarioId);
+        return contaMapper.toResponseDTO(contasUsuario);
     }
 
     private Conta buscaCarteira(Long id) {
