@@ -3,10 +3,13 @@ package com.fintech.wallet_service.controller;
 import com.fintech.wallet_service.dto.ContaRequestDTO;
 import com.fintech.wallet_service.dto.ContaResponseDTO;
 import com.fintech.wallet_service.dto.ContaResumoResponseDTO;
+import com.fintech.wallet_service.dto.SaldoResponseDTO;
+import com.fintech.wallet_service.entity.Conta;
 import com.fintech.wallet_service.service.ContaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +40,12 @@ public class ContaController {
     public ResponseEntity<List<ContaResumoResponseDTO>>listarCarteirasUsuario(@PathVariable Long usuarioId) {
         List<ContaResumoResponseDTO> contaResponseDTOS = contaService.listarCarteirasUsuario(usuarioId);
         return ResponseEntity.status(HttpStatus.OK).body(contaResponseDTOS);
+    }
+
+    @GetMapping("/{id}/saldo")
+    public ResponseEntity<SaldoResponseDTO> consultarSaldo(@PathVariable Long id) {
+        SaldoResponseDTO saldoResponseDTO = contaService.consultarSaldo(id);
+        return ResponseEntity.status(HttpStatus.OK).body(saldoResponseDTO);
+
     }
 }
