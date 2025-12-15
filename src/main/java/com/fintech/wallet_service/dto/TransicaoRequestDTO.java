@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.math.BigDecimal;
 
-public record DepositoRequestDTO(
+public record TransicaoRequestDTO(
         @Positive(message = "Valor de deposito tem que ser maior que ZERO")
         BigDecimal valor
 ) {}
