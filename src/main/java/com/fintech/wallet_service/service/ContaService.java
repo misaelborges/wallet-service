@@ -66,7 +66,7 @@ public class ContaService {
     @Transactional
     public SaldoResponseDTO depositar(Long id, DepositoRequestDTO depositoRequestDTO) {
         Conta conta = buscaCarteira(id);
-        conta.setSaldo(depositoRequestDTO.valor());
+        conta.setSaldo(conta.getSaldo().add(depositoRequestDTO.valor()));
         return contaMapper.toSaldoResponseDTO(conta);
     }
 
