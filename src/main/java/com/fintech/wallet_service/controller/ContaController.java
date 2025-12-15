@@ -1,12 +1,10 @@
 package com.fintech.wallet_service.controller;
 
 import com.fintech.wallet_service.dto.*;
-import com.fintech.wallet_service.entity.Conta;
 import com.fintech.wallet_service.service.ContaService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,8 +45,14 @@ public class ContaController {
     }
 
     @PutMapping("/{id}/depositar")
-    public ResponseEntity<SaldoResponseDTO> depositar(@PathVariable Long id, @RequestBody @Valid DepositoRequestDTO depositoRequestDTO) {
-        SaldoResponseDTO saldoResponseDTO = contaService.depositar(id, depositoRequestDTO);
+    public ResponseEntity<SaldoResponseDTO> depositar(@PathVariable Long id, @RequestBody @Valid TransicaoRequestDTO transicaoRequestDTO) {
+        SaldoResponseDTO saldoResponseDTO = contaService.depositar(id, transicaoRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(saldoResponseDTO);
+    }
+
+    @PutMapping("/{id}/sacar")
+    public ResponseEntity<SaldoResponseDTO> sacar(@PathVariable Long id, @RequestBody @Valid TransicaoRequestDTO transicaoRequestDTO) {
+        SaldoResponseDTO saldoResponseDTO = contaService.sacar(id, transicaoRequestDTO);
         return ResponseEntity.status(HttpStatus.OK).body(saldoResponseDTO);
     }
 }
