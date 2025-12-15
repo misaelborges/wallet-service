@@ -5,6 +5,7 @@ import com.fintech.wallet_service.config.service.UsuarioServiceCliente;
 import com.fintech.wallet_service.dto.ContaRequestDTO;
 import com.fintech.wallet_service.dto.ContaResponseDTO;
 import com.fintech.wallet_service.entity.Conta;
+import com.fintech.wallet_service.exception.ContaNaoEncontradaException;
 import com.fintech.wallet_service.repository.ContaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,16 @@ public class ContaService {
         conta.setAtiva(true);
         Conta contaSalvar = contaRepository.save(conta);
         return contaMapper.toResponseDTO(contaSalvar);
+    }
+
+    @Transactional
+    public ContaResponseDTO buscarCarteiraPorId(Long id) {
+        Conta conta = buscaCarteira(id);
+        return contaMapper.toResponseDTO(conta);
+    }
+
+    private Conta buscaCarteira(Long id) {
+       return contaRepository.findById(id).orElseThrow(() -> new ContaNaoEncontradaException(id));
     }
 
     private String gerarNumeroConta() {
