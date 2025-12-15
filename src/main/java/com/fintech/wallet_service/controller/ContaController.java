@@ -1,9 +1,6 @@
 package com.fintech.wallet_service.controller;
 
-import com.fintech.wallet_service.dto.ContaRequestDTO;
-import com.fintech.wallet_service.dto.ContaResponseDTO;
-import com.fintech.wallet_service.dto.ContaResumoResponseDTO;
-import com.fintech.wallet_service.dto.SaldoResponseDTO;
+import com.fintech.wallet_service.dto.*;
 import com.fintech.wallet_service.entity.Conta;
 import com.fintech.wallet_service.service.ContaService;
 import jakarta.validation.Valid;
@@ -47,5 +44,11 @@ public class ContaController {
         SaldoResponseDTO saldoResponseDTO = contaService.consultarSaldo(id);
         return ResponseEntity.status(HttpStatus.OK).body(saldoResponseDTO);
 
+    }
+
+    @PutMapping("/{id}/depositar")
+    public ResponseEntity<SaldoResponseDTO> depositar(@PathVariable Long id, @RequestBody @Valid DepositoRequestDTO depositoRequestDTO) {
+        SaldoResponseDTO saldoResponseDTO = contaService.depositar(id, depositoRequestDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(saldoResponseDTO);
     }
 }
