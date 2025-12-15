@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Random;
 
@@ -64,9 +63,16 @@ public class ContaService {
     }
 
     @Transactional
-    public SaldoResponseDTO depositar(Long id, DepositoRequestDTO depositoRequestDTO) {
+    public SaldoResponseDTO depositar(Long id, TransicaoRequestDTO transicaoRequestDTO) {
         Conta conta = buscaCarteira(id);
-        conta.setSaldo(conta.getSaldo().add(depositoRequestDTO.valor()));
+        conta.setSaldo(conta.getSaldo().add(transicaoRequestDTO.valor()));
+        return contaMapper.toSaldoResponseDTO(conta);
+    }
+
+    @Transactional
+    public SaldoResponseDTO sacar(Long id, TransicaoRequestDTO transicaoRequestDTO) {
+        Conta conta = buscaCarteira(id);
+        conta.setSaldo(conta.getSaldo().subtract(transicaoRequestDTO.valor()));
         return contaMapper.toSaldoResponseDTO(conta);
     }
 
